@@ -1,0 +1,964 @@
+name: hl7_fhir_r4_semantic_model
+description: A Semantic Model over healthcare HL7 FHIR data that captures relationships between PATIENTS, ENCOUNTERS, CLAIMS, CONDITIONS, MEDICATIONS tables for use by Cortex Analyst
+tables:
+  - name: CLAIMS
+    base_table:
+      database: HL7_FHIR
+      schema: HARMONIZED
+      table: CLAIMS
+    dimensions:
+      - name: CLAIM_ID
+        expr: CLAIM_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - 52606293-13ff-f54e-11c5-5fd8cc771719
+          - 0e9d9c5b-f491-2322-64a2-f6e43de69ed9
+          - 7c68319e-65cd-2ff2-38f9-969c54493c77
+        description: Unique identifier for a claim, used to track and reference a specific claim throughout the system.
+        synonyms:
+          - claim_number
+          - claim_identifier
+          - claim_reference
+          - claim_key
+          - invoice_id
+          - bill_number
+          - claim_code
+      - name: PATIENT_ID
+        expr: PATIENT_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - 346a1435-2455-914f-c287-7b88052d05db
+          - 0d61d17e-51a7-9590-3dc4-5aa410968b17
+          - d1ac7006-362b-cc1d-d516-f11d65055473
+        description: Unique identifier for the patient making the claim.
+        synonyms:
+          - patient_number
+          - patient_identifier
+          - patient_code
+          - individual_id
+          - person_id
+          - member_id
+          - subscriber_id
+      - name: ENCOUNTER_ID
+        expr: ENCOUNTER_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - a52031de-64c7-bf38-5c71-d7d8e09a5f01
+          - b1d5f156-f56e-813c-62ab-845344fddc86
+          - 29da02ee-0a6e-d872-1765-385f1086aa7e
+        description: Unique identifier for a patient's visit or encounter, used to track and manage claims related to a specific healthcare event.
+        synonyms:
+          - visit_id
+          - patient_visit_id
+          - encounter_number
+          - visit_number
+          - patient_encounter_number
+      - name: CLAIM_STATUS
+        expr: CLAIM_STATUS
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - active
+        description: The current status of a claim, indicating whether it is currently being processed or has been resolved.
+        synonyms:
+          - claim_state
+          - claim_outcome
+          - claim_result
+          - claim_resolution
+          - claim_disposition
+          - claim_decision
+      - name: CLAIM_TYPE_CODE
+        expr: CLAIM_TYPE_CODE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - pharmacy
+          - institutional
+        description: The type of claim submitted, either for pharmacy services (e.g. prescriptions) or institutional services (e.g. hospital stays, doctor visits).
+        synonyms:
+          - claim_category
+          - claim_class
+          - claim_classification
+          - claim_group
+          - claim_subcategory
+          - claim_subtype
+          - claim_type_id
+          - claim_type_identifier
+      - name: CLAIM_CURRENCY
+        expr: CLAIM_CURRENCY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - USD
+        description: The currency in which the claim was made.
+        synonyms:
+          - claim_denomination
+          - transaction_currency
+          - payment_currency
+          - claim_denomination_code
+          - currency_type
+          - claim_money_type
+          - exchange_rate_type
+          - claim_unit_of_exchange
+      - name: PRODUCT_SERVICE_CODE
+        expr: PRODUCT_SERVICE_CODE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - '371883000'
+          - '185347001'
+          - '33879002'
+        description: A unique identifier for a specific product or service provided to a patient, as defined by a standardized coding system, such as ICD-10-PCS or CPT.
+        synonyms:
+          - product_code
+          - service_identifier
+          - item_number
+          - product_id
+          - service_key
+          - product_identifier
+          - item_code
+          - service_code
+      - name: PRODUCT_SERVICE
+        expr: PRODUCT_SERVICE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Outpatient procedure
+          - General examination of patient (procedure)
+          - Administration of vaccine to produce active immunity (procedure)
+        description: The type of medical product or service provided to the patient, such as a procedure, examination, or vaccination.
+        synonyms:
+          - product
+          - service
+          - item
+          - offering
+          - commodity
+          - good
+          - merchandise
+          - article
+          - product_offering
+          - service_type
+      - name: INSURER_NAME
+        expr: INSURER_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Anthem
+          - Medicaid
+          - Medicare
+        description: The name of the insurance provider that is responsible for paying the claim.
+        synonyms:
+          - insurance_company
+          - insurance_provider
+          - health_insurer
+          - insurance_carrier
+          - payer_name
+          - insurance_organization
+          - underwriter_name
+      - name: SERVICE_PROVIDER_NAME
+        expr: SERVICE_PROVIDER_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - PCP30650
+          - PCP5973
+          - SOUTH SHORE HOSPITAL
+        description: The name of the healthcare provider or facility that rendered the medical service.
+        synonyms:
+          - provider_name
+          - healthcare_provider
+          - service_provider
+          - care_provider
+          - medical_service_provider
+          - practitioner_name
+          - facility_name
+          - supplier_name
+          - vendor_name
+    time_dimensions:
+      - name: CLAIM_CREATED_DATETIME
+        expr: CLAIM_CREATED_DATETIME
+        data_type: TIMESTAMP_NTZ(9)
+        sample_values:
+          - 1966-02-03T04:44:10.000+0000
+          - 2018-02-01T00:21:42.000+0000
+          - 2020-05-09T07:22:10.000+0000
+        description: The date and time when a claim was created.
+        synonyms:
+          - claim_creation_time
+          - claim_submission_date
+          - claim_initiation_timestamp
+          - claim_filing_datetime
+          - claim_registration_time
+      - name: CLAIM_START_DATETIME
+        expr: CLAIM_START_DATETIME
+        data_type: TIMESTAMP_NTZ(9)
+        sample_values:
+          - 2016-10-11T04:14:45.000+0000
+          - 2021-07-02T00:01:36.000+0000
+          - 2007-07-04T06:45:55.000+0000
+        description: The date and time when a claim was initiated or started.
+        synonyms:
+          - claim_initiation_date
+          - claim_begin_date
+          - claim_start_time
+          - claim_initiation_time
+          - claim_commencement_date
+          - claim_effective_date
+      - name: CLAIM_END_DATETIME
+        expr: CLAIM_END_DATETIME
+        data_type: TIMESTAMP_NTZ(9)
+        sample_values:
+          - 2014-01-23T00:21:42.000+0000
+          - 2020-02-13T00:21:42.000+0000
+          - 2007-06-05T08:58:49.000+0000
+        description: The date and time when a claim was closed or resolved.
+        synonyms:
+          - claim_closure_date
+          - claim_completion_date
+          - claim_expiration_date
+          - claim_termination_date
+          - end_of_claim_date
+          - claim_end_time
+    facts:
+      - name: CLAIM_AMOUNT
+        expr: CLAIM_AMOUNT
+        data_type: FLOAT
+        sample_values:
+          - '590.81'
+          - '45.25'
+          - '1249.7'
+        description: The CLAIM_AMOUNT column represents the total monetary value of each insurance claim submitted by a policyholder, reflecting the amount requested for reimbursement or compensation for a covered loss or expense.
+        synonyms:
+          - claim_value
+          - claim_cost
+          - amount_claimed
+          - claim_total
+          - billed_amount
+          - claim_price
+          - payment_amount
+          - reimbursement_amount
+          - insurance_claim_value
+      - name: CLAIM_AMOUNT_ROUNDED
+        expr: CLAIM_AMOUNT_ROUNDED
+        data_type: FLOAT
+        sample_values:
+          - '10.66'
+          - '932.99'
+          - '21139.5'
+        description: The CLAIM_AMOUNT_ROUNDED column represents the total amount of a claim rounded to two decimal places, indicating the monetary value of the claim submitted by a customer or policyholder.
+        synonyms:
+          - rounded_claim_cost
+          - claim_cost_rounded
+          - rounded_claim_value
+          - claim_amount_approx
+          - rounded_claim_total
+    primary_key:
+      columns:
+        - CLAIM_ID
+  - name: CONDITIONS
+    base_table:
+      database: HL7_FHIR
+      schema: HARMONIZED
+      table: CONDITIONS
+    dimensions:
+      - name: CONDITION_ID
+        expr: CONDITION_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - 44cefa1f-29cf-3578-5910-e7e1416a13b8
+          - 06958175-0321-3681-6c2f-cfb01752741b
+          - b892b140-5426-084c-3e4a-0e6e2cc3abaa
+        description: Unique identifier for a specific medical condition or diagnosis.
+        synonyms:
+          - diagnosis_id
+          - medical_condition_id
+          - health_condition_id
+          - illness_id
+          - disease_id
+      - name: PATIENT_ID
+        expr: PATIENT_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - aa2f41c3-412f-6635-26df-de6f46013766
+          - d19face0-6272-fbfb-7882-7745c0a86eb5
+          - 7fc4f0ed-3671-9ba3-43ba-f7e8da8ca108
+        description: Unique identifier for the patient associated with the condition.
+        synonyms:
+          - patient_number
+          - person_id
+          - individual_id
+          - subject_id
+          - medical_record_number
+          - patient_identifier
+          - personal_id
+          - unique_patient_identifier
+      - name: DIAGNOSIS_ENCOUNTER_ID
+        expr: DIAGNOSIS_ENCOUNTER_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - 536bc9b9-5006-8cf2-9ab1-4fc3b106b04a
+          - f3086cf7-df96-28d7-cb87-7147ff5747d5
+          - 3fef2271-d090-ff90-20b8-9fe97dc4d18b
+        description: Unique identifier for a diagnosis encounter, used to link a diagnosis to a specific patient encounter or visit.
+        synonyms:
+          - encounter_id_for_diagnosis
+          - diagnosis_event_id
+          - visit_id_for_diagnosis
+          - diagnosis_visit_identifier
+          - encounter_identifier_for_diagnosis
+      - name: CATEGORY
+        expr: CATEGORY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - encounter-diagnosis
+        description: The category of the encounter diagnosis, which represents the type or classification of the diagnosis made during a patient's encounter.
+        synonyms:
+          - type
+          - classification
+          - kind
+          - group
+          - genre
+          - sort
+          - class
+          - designation
+      - name: DIAGNOSIS_CODE
+        expr: DIAGNOSIS_CODE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - '40055000'
+          - '58150001'
+          - '10509002'
+        description: Diagnosis code as per the International Classification of Diseases (ICD) standard, representing a specific medical condition or disease.
+        synonyms:
+          - diagnosis_icd_code
+          - icd_code
+          - medical_code
+          - health_code
+          - clinical_code
+          - medical_diagnosis_code
+      - name: DIAGNOSIS
+        expr: DIAGNOSIS
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Viral sinusitis (disorder)
+          - Risk activity involvement (finding)
+          - Received certificate of high school equivalency (finding)
+        description: This column stores the specific medical conditions or diagnoses associated with a patient or individual, including both acute conditions such as viral sinusitis and non-clinical findings such as risk activities or educational achievements.
+        synonyms:
+          - medical_condition
+          - diagnosis_name
+          - health_condition
+          - medical_diagnosis
+          - condition_name
+          - diagnosis_description
+          - health_issue
+          - medical_problem
+      - name: CLINICAL_STATUS
+        expr: CLINICAL_STATUS
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - resolved
+          - active
+        description: The clinical status of a condition, indicating whether it has been resolved or is still active.
+        synonyms:
+          - medical_status
+          - health_status
+          - patient_status
+          - clinical_condition
+          - diagnosis_status
+          - medical_condition_status
+          - patient_condition
+          - health_condition_status
+      - name: VERIFICATION_STATUS
+        expr: VERIFICATION_STATUS
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - confirmed
+        description: Indicates whether the condition has been confirmed or not.
+        synonyms:
+          - validation_status
+          - confirmation_status
+          - verification_level
+          - confirmation_level
+          - authenticity_status
+          - validation_level
+          - confirmation_result
+    time_dimensions:
+      - name: DIAGNOSIS_DATETIME
+        expr: DIAGNOSIS_DATETIME
+        data_type: TIMESTAMP_NTZ(9)
+        sample_values:
+          - 2020-12-17T12:11:46.000+0000
+          - 2013-04-21T23:07:28.000+0000
+          - 2018-03-10T14:33:34.000+0000
+        description: Date and time when the diagnosis was made.
+        synonyms:
+          - diagnosis_timestamp
+          - diagnosis_date
+          - diagnosis_time
+          - diagnosis_moment
+          - recorded_diagnosis_time
+          - diagnosis_entry_time
+          - diagnosis_log_time
+          - diagnosis_capture_time
+    primary_key:
+      columns:
+        - CONDITION_ID
+  - name: ENCOUNTERS
+    base_table:
+      database: HL7_FHIR
+      schema: HARMONIZED
+      table: ENCOUNTERS
+    dimensions:
+      - name: ENCOUNTER_ID
+        expr: ENCOUNTER_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - 450434ba-c9d7-6042-d302-e1193f58a051
+          - cabdf904-be55-696f-bf30-501e4d7d1bf6
+          - 5fede18b-3d63-60b6-3399-60bc86d9215a
+        description: Unique identifier for each patient encounter, used to track and manage individual interactions between patients and healthcare providers.
+        synonyms:
+          - visit_id
+          - encounter_number
+          - patient_visit_id
+          - admission_id
+          - episode_id
+          - case_id
+          - record_id
+      - name: PATIENT_ID
+        expr: PATIENT_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - cb8c092a-99aa-6c9c-1ec1-660f0b00549d
+          - 60e27639-436c-6c04-1ff6-9790df8552f8
+          - 3d5f91c2-0539-37c9-0691-d2bbe28c78e3
+        description: Unique identifier for the patient associated with the encounter.
+        synonyms:
+          - patient_number
+          - person_id
+          - individual_id
+          - subject_id
+          - medical_record_number
+          - patient_identifier
+          - personal_id
+          - unique_patient_identifier
+      - name: ENCOUNTER_STATUS
+        expr: ENCOUNTER_STATUS
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - finished
+        description: The current status of the encounter, indicating whether it has been completed.
+        synonyms:
+          - encounter_state
+          - encounter_phase
+          - patient_status
+          - visit_status
+          - care_status
+          - treatment_status
+          - episode_status
+      - name: ENCOUNTER_CLASS_CODE
+        expr: ENCOUNTER_CLASS_CODE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - EMER
+          - AMB
+          - IMP
+        description: The type of encounter or visit, such as Emergency (EMER), Ambulatory (AMB), or Inpatient (IMP).
+        synonyms:
+          - encounter_type
+          - visit_type
+          - encounter_category
+          - visit_category
+          - encounter_code
+          - visit_code
+          - encounter_classification
+          - visit_classification
+      - name: ENCOUNTER_SERVICE_PROVIDER_NAME
+        expr: ENCOUNTER_SERVICE_PROVIDER_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - HEBREW REHABILITATION CENTER
+          - SAINT ANNE'S HOSPITAL
+          - PCP32178
+        description: The name of the healthcare provider or facility that delivered the service during the encounter.
+        synonyms:
+          - service_provider_name
+          - encounter_facility
+          - healthcare_provider
+          - provider_name
+          - service_location
+          - encounter_location
+          - facility_name
+          - provider_facility
+      - name: ENCOUNTER_PRACTITIONER
+        expr: ENCOUNTER_PRACTITIONER
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Dr. Germán350 Sanabria449
+          - Dr. Ingrid581 Jacobson885
+          - Dr. Hugo693 Balderas66
+        description: The ENCOUNTER_PRACTITIONER column represents the name of the healthcare practitioner who conducted the patient encounter.
+        synonyms:
+          - attending_doctor
+          - treating_physician
+          - primary_care_provider
+          - encounter_doctor
+          - practitioner_name
+          - attending_physician
+          - treating_doctor
+    time_dimensions:
+      - name: ENCOUNTER_START_DATETIME
+        expr: ENCOUNTER_START_DATETIME
+        data_type: TIMESTAMP_NTZ(9)
+        sample_values:
+          - 1966-04-17T01:15:50.000+0000
+          - 2014-02-09T07:40:20.000+0000
+          - 2016-09-23T21:08:28.000+0000
+        description: The date and time when an encounter or interaction with a patient or subject began.
+        synonyms:
+          - encounter_begin_date
+          - encounter_initiation_time
+          - start_of_encounter
+          - encounter_commencement_datetime
+          - admission_time
+          - encounter_start_time
+          - visit_start_datetime
+      - name: ENCOUNTER_END_DATETIME
+        expr: ENCOUNTER_END_DATETIME
+        data_type: TIMESTAMP_NTZ(9)
+        sample_values:
+          - 2012-08-17T21:23:28.000+0000
+          - 2013-09-27T21:23:28.000+0000
+          - 2010-10-02T22:00:20.000+0000
+        description: The date and time when an encounter or interaction with a patient or client ended.
+        synonyms:
+          - encounter_completion_time
+          - encounter_close_time
+          - end_of_encounter
+          - encounter_termination_time
+          - visit_end_time
+          - discharge_time
+    primary_key:
+      columns:
+        - ENCOUNTER_ID
+  - name: MEDICATIONS
+    base_table:
+      database: HL7_FHIR
+      schema: HARMONIZED
+      table: MEDICATIONS
+    dimensions:
+      - name: MEDICATION_ID
+        expr: MEDICATION_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - af0db389-6016-07d0-38b5-fb797a1c6f80
+          - 11e47654-0d09-a570-5da3-530f37c5e417
+          - b8a3ce6b-b95e-5772-ac64-36a505207a1f
+        description: Unique identifier for a specific medication.
+        synonyms:
+          - medication_key
+          - medication_identifier
+          - med_id
+          - prescription_id
+          - rx_id
+          - medication_code_id
+          - med_code
+      - name: PATIENT_ID
+        expr: PATIENT_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - 55c5b8d3-99d0-58ad-8444-e42bb81bd5c7
+          - 96a91c58-1099-af08-0aee-3d924cd5c7e8
+          - 6b3a5686-0f63-5ce4-cc03-0bba2052f7b1
+        description: Unique identifier for the patient taking the medication.
+        synonyms:
+          - patient_number
+          - person_id
+          - individual_id
+          - subject_id
+          - patient_identifier
+          - medical_record_number
+          - patient_code
+      - name: MEDICATION_ENCOUNTER_ID
+        expr: MEDICATION_ENCOUNTER_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - 5adbba82-ff11-3fd4-3239-5d08484de4f9
+          - 7d259835-3dd8-7d6c-48b7-ce8a3df08978
+          - 992721ad-a99e-a17c-aebf-31bf3bcdea77
+        description: Unique identifier for a medication encounter, which represents a specific instance of a patient receiving a medication.
+        synonyms:
+          - medication_visit_id
+          - med_encounter_number
+          - med_visit_number
+          - medication_session_id
+          - med_event_id
+          - med_administration_id
+      - name: MEDICATION_CODE
+        expr: MEDICATION_CODE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - '204892'
+          - '314231'
+          - '748879'
+        description: A unique identifier assigned to each medication, used to track and manage medication information within the healthcare system.
+        synonyms:
+          - medication_id_number
+          - rx_code
+          - prescription_code
+          - drug_code
+          - pharmaceutical_code
+          - medication_number
+      - name: MEDICATION
+        expr: MEDICATION
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - tramadol hydrochloride 50 MG Oral Tablet
+          - 1 ML medroxyPROGESTERone acetate 150 MG/ML Injection
+          - Hydrochlorothiazide 25 MG Oral Tablet
+        description: The name of the medication, including the active ingredient, strength, and dosage form (e.g. tablet, injection).
+        synonyms:
+          - drug
+          - medicine
+          - prescription
+          - treatment
+          - remedy
+          - pharmaceutical
+          - medication_name
+          - prescribed_medication
+          - drug_name
+      - name: INTENT
+        expr: INTENT
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - order
+        description: The purpose or goal of the medication being prescribed, such as treatment, prevention, or diagnosis.
+        synonyms:
+          - purpose
+          - goal
+          - objective
+          - aim
+          - plan
+          - intention
+          - objective_description
+          - treatment_goal
+          - medication_purpose
+      - name: MEDICATION_STATUS
+        expr: MEDICATION_STATUS
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - active
+          - stopped
+        description: The current status of the medication, indicating whether it is currently being taken (active) or has been discontinued (stopped).
+        synonyms:
+          - medication_state
+          - treatment_status
+          - prescription_status
+          - drug_status
+          - medication_progress
+          - therapy_status
+          - treatment_progress
+          - medication_outcome
+      - name: MEDICATION_PRACTITIONER
+        expr: MEDICATION_PRACTITIONER
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Dr. Ramona980 Kunze215
+          - Dr. Jeane173 Jenkins714
+          - Dr. Kira861 Vandervort697
+        description: The name of the healthcare practitioner who prescribed the medication.
+        synonyms:
+          - prescribing_doctor
+          - prescribing_physician
+          - medication_prescriber
+          - healthcare_provider
+          - attending_doctor
+          - ordering_practitioner
+          - medication_ordering_provider
+    time_dimensions:
+      - name: MEDICATION_REQUEST_DATETIME
+        expr: MEDICATION_REQUEST_DATETIME
+        data_type: TIMESTAMP_NTZ(9)
+        sample_values:
+          - 2021-02-02T06:11:58.000+0000
+          - 1998-10-12T01:22:14.000+0000
+          - 2009-12-14T00:22:14.000+0000
+        description: The date and time when a medication was requested.
+        synonyms:
+          - medication_order_datetime
+          - prescription_request_time
+          - medication_request_timestamp
+          - rx_request_datetime
+          - medication_order_time
+    primary_key:
+      columns:
+        - MEDICATION_ID
+  - name: PATIENTS
+    base_table:
+      database: HL7_FHIR
+      schema: HARMONIZED
+      table: PATIENTS
+    dimensions:
+      - name: PATIENT_ID
+        expr: PATIENT_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - aa2f41c3-412f-6635-26df-de6f46013766
+          - 09faca51-f561-cdc3-e524-a1d682f19258
+          - b9c610cd-28a6-4636-ccb6-c7a0d2a4cb85
+        description: Unique identifier for each patient in the healthcare system.
+        synonyms:
+          - patient_identifier
+          - medical_record_id
+          - person_id
+          - individual_id
+          - subject_id
+          - unique_patient_identifier
+      - name: MEDICAL_RECORD_NUMBER
+        expr: MEDICAL_RECORD_NUMBER
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - 2798ae24-ef3b-1906-6e41-a31e0fd833a0
+          - 591d3cc1-8a81-1962-faef-d96b874870b2
+          - 561db9de-7617-4fed-b230-1553b8dd65f3
+        description: A unique identifier assigned to each patient's medical record, used to track and manage their medical history, diagnoses, treatments, and other healthcare-related information.
+        synonyms:
+          - patient_id_number
+          - medical_id
+          - health_record_id
+          - medical_file_number
+          - patient_number
+          - health_id
+          - medical_identifier
+      - name: FAMILY_NAME
+        expr: FAMILY_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Collins926
+          - Douglas31
+          - Bosco882
+        description: The family name of the patient.
+        synonyms:
+          - last_name
+          - surname
+          - family_surname
+          - patronymic
+          - clan_name
+          - household_name
+      - name: GIVEN_NAME
+        expr: GIVEN_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Kari181
+          - Abe604
+          - Brendan864
+        description: The first name of the patient.
+        synonyms:
+          - first_name
+          - forename
+          - christian_name
+          - personal_name
+          - baptismal_name
+          - birth_name
+      - name: GENDER
+        expr: GENDER
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - female
+          - male
+        description: The gender of the patient, either female or male.
+        synonyms:
+          - sex
+          - male_female
+          - demographic
+          - biological_sex
+          - sex_type
+          - gender_identity
+      - name: RACE
+        expr: RACE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - White
+          - Asian
+          - Black or African American
+        description: The patient's racial identity, categorized as White, Asian, or Black or African American.
+        synonyms:
+          - ethnicity
+          - ancestry
+          - heritage
+          - nationality
+          - cultural_background
+          - demographic_group
+      - name: CITY
+        expr: CITY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Holyoke
+          - Palmer
+          - Brookline
+        description: The city where the patient resides.
+        synonyms:
+          - town
+          - municipality
+          - urban_area
+          - metropolis
+          - locality
+          - settlement
+          - urban_center
+          - borough
+      - name: STATE
+        expr: STATE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - MA
+        description: The two-letter abbreviation for the state in the United States where the patient resides.
+        synonyms:
+          - province
+          - region
+          - territory
+          - county
+          - parish
+          - prefecture
+          - district
+          - area
+          - jurisdiction
+          - locale
+      - name: POSTAL_CODE
+        expr: POSTAL_CODE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - '01603'
+          - '02190'
+          - '02120'
+        description: The postal code of the patient's residence.
+        synonyms:
+          - zip_code
+          - postcode
+          - zip
+          - postal
+          - mailing_code
+          - geographic_code
+          - area_code
+          - location_code
+      - name: COUNTRY
+        expr: COUNTRY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - US
+        description: The country where the patient resides.
+        synonyms:
+          - nation
+          - land
+          - homeland
+          - place_of_origin
+          - geographic_location
+          - sovereign_country
+    time_dimensions:
+      - name: BIRTH_DATE
+        expr: BIRTH_DATE
+        data_type: DATE
+        sample_values:
+          - '2014-12-29'
+          - '1960-01-30'
+          - '1965-02-26'
+        description: Date of birth of the patient.
+        synonyms:
+          - date_of_birth
+          - birth_day
+          - dob
+          - date_of_origin
+          - natal_date
+          - birthdate
+      - name: DECEASED_DATETIME
+        expr: DECEASED_DATETIME
+        data_type: TIMESTAMP_NTZ(9)
+        sample_values:
+          - 2015-02-12T21:50:03.000+0000
+          - 1993-05-15T14:49:49.000+0000
+        description: Date and time of patient's death.
+        synonyms:
+          - date_of_death
+          - deceased_timestamp
+          - time_of_death
+          - date_of_passing
+          - death_datetime
+          - deceased_at
+    primary_key:
+      columns:
+        - PATIENT_ID
+relationships:
+  - relationship_type: many_to_one
+    left_table: PATIENTS
+    relationship_columns:
+      - left_column: PATIENT_ID
+        right_column: PATIENT_ID
+    right_table: ENCOUNTERS
+    join_type: left_outer
+    name: patients_encounters
+  - name: patients_claims
+    relationship_type: many_to_one
+    join_type: left_outer
+    left_table: PATIENTS
+    relationship_columns:
+      - left_column: PATIENT_ID
+        right_column: PATIENT_ID
+    right_table: CLAIMS
+  - name: encounters_claims
+    relationship_type: many_to_one
+    join_type: left_outer
+    left_table: ENCOUNTERS
+    relationship_columns:
+      - left_column: ENCOUNTER_ID
+        right_column: ENCOUNTER_ID
+    right_table: CLAIMS
+  - name: patients_conditions
+    relationship_type: many_to_one
+    join_type: left_outer
+    left_table: PATIENTS
+    relationship_columns:
+      - left_column: PATIENT_ID
+        right_column: PATIENT_ID
+    right_table: CONDITIONS
+  - name: encounters_conditions
+    join_type: left_outer
+    relationship_type: many_to_one
+    left_table: ENCOUNTERS
+    relationship_columns:
+      - left_column: ENCOUNTER_ID
+        right_column: DIAGNOSIS_ENCOUNTER_ID
+    right_table: CONDITIONS
+  - name: patients_medications
+    join_type: left_outer
+    relationship_type: many_to_one
+    left_table: PATIENTS
+    relationship_columns:
+      - left_column: PATIENT_ID
+        right_column: PATIENT_ID
+    right_table: MEDICATIONS
+  - name: encounters_medications
+    join_type: left_outer
+    relationship_type: many_to_one
+    left_table: ENCOUNTERS
+    relationship_columns:
+      - left_column: ENCOUNTER_ID
+        right_column: MEDICATION_ENCOUNTER_ID
+    right_table: MEDICATIONS
+verified_queries:
+  - name: patients with the highest frequency of encounters and associated costs
+    question: Which patients have the highest frequency of encounters and associated costs?
+    use_as_onboarding_question: true
+    sql: SELECT p.patient_id, COUNT(DISTINCT e.encounter_id) AS num_encounters, SUM(c.claim_amount) AS total_claim_amount FROM PATIENTS AS p JOIN ENCOUNTERS AS e ON p.patient_id = e.patient_id JOIN CLAIMS AS c ON e.encounter_id = c.encounter_id GROUP BY p.patient_id ORDER BY num_encounters DESC, total_claim_amount DESC LIMIT 10
+    verified_by: Lavinia Carabet
+    verified_at: 1749167856
+  - name: claim amount variability by medication
+    question: How do claim amounts vary by medication prescribed?
+    use_as_onboarding_question: true
+    sql: SELECT medication_code, MIN(medication) AS medication, AVG(claim_amount) AS avg_claim, SUM(claim_amount) AS total_claim FROM MEDICATIONS AS m JOIN PATIENTS AS p ON p.patient_id = m.patient_id JOIN CLAIMS AS c ON c.patient_id = p.patient_id WHERE NOT medication_code IS NULL GROUP BY medication_code ORDER BY total_claim DESC LIMIT 20
+    verified_by: Lavinia Carabet
+    verified_at: 1749168202
+  - name: patients with diabetes adhering to expected medication patterns
+    question: Are patients with chronic conditions (e.g., diabetes) adhering to expected medication patterns?
+    use_as_onboarding_question: true
+    sql: WITH med_patterns AS (SELECT patient_id, COUNT(DISTINCT medication_code) AS num_medications, MIN(medication_request_datetime) AS first_med, MAX(medication_request_datetime) AS last_med, DATEDIFF(YEAR, MIN(medication_request_datetime), MAX(medication_request_datetime)) AS duration_years FROM MEDICATIONS GROUP BY patient_id), chronic_conditions AS (SELECT patient_id, diagnosis_code, MIN(diagnosis) AS diagnosis FROM CONDITIONS WHERE diagnosis_code = '44054006' /* diabetes */ GROUP BY patient_id, diagnosis_code) SELECT mp.patient_id, diagnosis_code, diagnosis, num_medications, first_med, last_med, duration_years FROM med_patterns AS mp JOIN chronic_conditions AS cc ON cc.patient_id = mp.patient_id ORDER BY duration_years DESC
+    verified_by: Lavinia Carabet
+    verified_at: 1749168538
+  - name: full patient journey
+    question: How can a patient's clinical journey - unique conditions diagnosed, medications prescribed, total amount claimed - be tracked over time from first encounter to last claim?
+    use_as_onboarding_question: true
+    sql: WITH patient_journey AS (SELECT p.patient_id, e.encounter_end_datetime, c.diagnosis_code, m.medication_code, cl.claim_amount, cl.claim_created_datetime FROM PATIENTS AS p LEFT JOIN ENCOUNTERS AS e ON p.patient_id = e.patient_id LEFT JOIN CONDITIONS AS c ON e.encounter_id = c.diagnosis_encounter_id LEFT JOIN MEDICATIONS AS m ON e.encounter_id = m.medication_encounter_id LEFT JOIN CLAIMS AS cl ON e.encounter_id = cl.encounter_id) SELECT patient_id, MIN(encounter_end_datetime) AS first_encounter, MAX(claim_created_datetime) AS last_claim, COUNT(DISTINCT diagnosis_code) AS num_conditions, COUNT(DISTINCT medication_code) AS num_medications, SUM(claim_amount) AS total_claim_amount FROM patient_journey GROUP BY patient_id ORDER BY total_claim_amount DESC LIMIT 50
+    verified_by: Lavinia Carabet
+    verified_at: 1749263535
