@@ -8,7 +8,7 @@
  
 - __`2.`__ End-to-End ELT data pipeline for processing semi-structured HL7 FHIR R4 JSON messages into a structured representation to facilitate role-based data protection of sensitive information, analysis and visualization with __SnowSQL CLI client, Snowflake SQL, functions, dynamic data masking and Streamlit in Snowflake notebook__.
 
-- __`3.`__ Semi-structured JSON data ingestion from clinicaltrials.gov REST API into Snowflake making use of __Snowflake external access integration and a Python-based UDF function to fetch data from REST API endpoint__.
+- __`3.`__ End-to-End ELT data pipeline and analytics dashboard for ingestion, normalization, and exploration of semi-structured JSON data from clinicaltrials.gov via REST API making use of __Snowflake external access integration, Python-based UDF, Snowpark and Streamlit in Snowflake__.
 
 ---
 
