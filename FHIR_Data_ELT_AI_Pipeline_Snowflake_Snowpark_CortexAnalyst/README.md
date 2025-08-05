@@ -34,10 +34,17 @@ This project illustrates how to:
 ├── streamlit/
 │ ├── streamlit_app.py # Streamlit Cortex Analyst Conversational App text-to-SQL Q&A
 │ ├── environment.yml 
+├── images/ # Chat App screenshots
 ├── README.md
 </pre>
 
 ---
+
+## 📎 Cortex Analyst Chat App Screeshots
+
+![FHIR_Chat_SM](images/Cortex_Analyst_Chat_App1.png)
+![FHIR_Chat_QA](images/Cortex_Analyst_Chat_App2.png)
+![FHIR_Chat_SQL](images/Cortex_Analyst_Chat_App3.png)
 
 
 

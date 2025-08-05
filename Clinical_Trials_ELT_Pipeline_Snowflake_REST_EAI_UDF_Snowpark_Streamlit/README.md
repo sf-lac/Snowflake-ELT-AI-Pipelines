@@ -47,22 +47,31 @@ An end-to-end data pipeline and analytics dashboard for clinical trials data usi
 ├── streamlit/
 │ ├── streamlit_app.py # Streamlit dashboard code
 │ ├── environment.yml 
-├── docs/ # Streamit Dashboard as static HTML page
 ├── images/ # Streamit Dashboard screenshots
 ├── README.md
 </pre>
 
 ---
 
-## 📎 Output 
+## 📎 Dashboard
 
-[Blueprint of a Clinical Trial Dashboard](docs/Blueprint_Clinical_Trial.htm)
-
-## 📎 Sample Dashboard Screeshots
- 
 ![Study Overview](images/1-study_overview/streamlit_clinical_trial_overview1.png)
+![Study Overview](images/1-study_overview/streamlit_clinical_trial_overview2.png)
 ![Study Locations](images/2-study_locations/streamlit_clinical_trial_locations.png)
+![Study Design](images/3-study_design/streamlit_clinical_trial_design1.png)
+![Study Design](images/3-study_design/streamlit_clinical_trial_design2.png)
+![Outcomes](images/4-outcome_measures/streamlit_clinical_trial_outcome_measures1.png)
 ![Outcomes](images/4-outcome_measures/streamlit_clinical_trial_outcome_measures2.png)
+![Baseline Measures](images/5-baseline_measures/streamlit_clinical_trial_baseline_measures1.png)
+![Baseline Measures](images/5-baseline_measures/streamlit_clinical_trial_baseline_measures2.png)
+![Adverse Events](images/6-adverse_events/streamlit_clinical_trial_adverse_events1.png)
+![Adverse Events](images/6-adverse_events/streamlit_clinical_trial_adverse_events2.png)
+![Adverse Events](images/6-adverse_events/streamlit_clinical_trial_adverse_events3.png)
+![Documents](images/7-documents/streamlit_clinical_trial_documents.png)
+![Limitations](images/8-limitations/streamlit_clinical_trial_limitations.png)
+
+
+
 
 
 
